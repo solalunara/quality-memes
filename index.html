@@ -1,12 +1,341 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Quality Memes</title>
-  </head>
-  <body>
-    <iframe src="https://discord.com/widget?id=461592184156848138&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-  </body>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Quality Memes</title>
+    </head>
+    <body onload="LoadResources()">
+        <div id="login-page">
+            <h2>Login</h2>
+
+            Username: <textarea rows=1 cols=20 onkeydown="checkkey( event )" onclick="removeurl()" style="resize:none; text-align: left;" id="username"></textarea>
+            
+            Password: <textarea rows=1 cols=20 onkeydown="checkkey( event )" onclick="removeurl()" style="resize:none; text-align: left;" id="password"></textarea>
+
+            <button onclick="rojf()">submit</button> <button onclick="rojf()">register</button>
+
+            <div id="username-error" style="display: none;">No user exists with that username</div>
+            <div id="password-error" style="display: none;">The password you entered is incorrect</div>
+        </div>
+
+        <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css"> 
+        <style>
+            body {
+                position:fixed;
+                display: flex;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+                background-image: -webkit-linear-gradient(top, #beb1a8 0%, #3680a7 100%);
+                background-image: -moz-linear-gradient(top, #beb1a8 0%, #3680a7 100%);
+                background-image: -ms-linear-gradient(top, #beb1a8 0%, #3680a7 100%);
+                background-image: -o-linear-gradient(top, #beb1a8 0%, #3680a7 100%);
+                background-image: linear-gradient(top, #beb1a8 0%, #3680a7 100%);
+                min-height: 100vh;
+                min-width: 100vw;
+            }
+            html {
+                height: 100vh;
+                min-width: 100vw;
+            }
+            html, body {
+                margin: 0;
+                overflow: hidden;
+            }
+
+            #login-page {
+                white-space: pre-line;
+                height: auto;
+                width: auto;
+                text-shadow: 2px 2px 2px gray;
+                font-size: 20px
+            }
+
+            button, textarea {
+                text-decoration: none;
+            }
+            button {
+                text-align: center;
+                border: none;
+                background-color: #624645;
+                color: white;
+                border-radius: 20px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+            }
+            textarea {
+                background-color: #3680b7;
+                color: black;
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+                resize: none;
+                text-align: left;
+            }
+            button:hover {
+                background-color: #ffffff;
+                color: black;
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+            }
+
+            .footer {
+                position: fixed;
+                display: block;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        </style>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+        <script>
+
+            function checkkey( event ) {
+                if ( event.key === 'Enter' ) {
+                    event.preventDefault();
+                    rojf();
+                }
+            }
+
+            var transactions;
+            var users;
+            async function LoadResources() {
+                transactions = await (await fetch( "https://solalunara.github.io/quality-memes/transactions.json" )).text()
+                users = await (await fetch( "https://solalunara.github.io/quality-memes/users.json.enc" )).text()
+            }
+
+            function local() {
+                document.getElementById( 'localdiv' ).style.display = 'block';
+                document.getElementById( 'localbutton' ).style.display = 'none';
+            }
+
+            function archiveerror() {
+                document.getElementById( 'archiveerror' ).style.display = 'block';
+            }
+
+            function rojf() {
+                const fileInput = document.getElementById('fileInput');
+                const files = fileInput.files;
+
+                removeurl();
+
+                String.prototype.hashCode = function() {
+                    var hash = 0, i, chr;
+                    if (this.length === 0) return hash;
+                    for (i = 0; i < this.length; i++) {
+                        chr = this.charCodeAt(i);
+                        hash = ((hash << 5) - hash) + chr;
+                        hash |= 0;
+                    }
+                    return hash;
+                }
+
+                var code = document.getElementById( 'code' ).value;
+                switch ( code.hashCode() )
+                {
+                    case 1216985755:
+                    case 1281629883:
+                    case 1999612571:
+                    case 729336170:
+                    case 893656458:
+                    case 958300586:
+                    case 1042649482:
+                        if ( code.length == 8 )
+                            code = 'the ' + code;
+                        window.location.href = CryptoJS.AES.decrypt( 'U2FsdGVkX1/kuESPwJyQ35n5zyaGZTxcIt7GhrlD9tkL/tY6jLKCamTq+eEoHg/CD9kHClcIAdVPMBeDBDdZ5EZHkkLfJsLgFR5AWxs96WE=', code.toLowerCase() ).toString( CryptoJS.enc.Utf8 );
+                        break;
+
+                    case -1961899739:
+                    case -1045766907:
+                    case -1992437499: {
+                        let LocalFile = false;
+                        for ( let i = 0; i < files.length; ++i )
+                            if ( files[ i ].name == "0o0E.mp3.enc" ) {
+                                decryptFile( files[ i ], code.toLowerCase() );
+                                LocalFile = true;
+                            }
+                        if ( files.length == 0 && file0 != undefined )
+                            decryptText( file0, code.toLowerCase(), "0o0E.mp3" );
+                        if ( !LocalFile && files.length != 0 )
+                            archiveerror();
+                        break;
+                    }
+
+                    case 68599:
+                    case 67575:
+                    case 99351: {
+                        let LocalFile = false;
+                        for ( let i = 0; i < files.length; ++i )
+                            if ( files[ i ].name == "0o0E.exe.enc" ) {
+                                decryptFile( files[ i ], code.toLowerCase() );
+                                LocalFile = true;
+                            }
+                        if ( files.length == 0 && file1 != undefined )
+                            decryptText( file1, code.toLowerCase(), "0o0E.exe" );
+                        if ( !LocalFile && files.length != 0 )
+                            archiveerror();
+                        break;
+                    }
+
+                    case 1972518454:
+                    case 1941980694:
+                    case -1406316010: {
+                        let LocalFile = false;
+                        for ( let i = 0; i < files.length; ++i )
+                            if ( files[ i ].name == "0o0E.wav.enc" ) {
+                                decryptFile( files[ i ], code.toLowerCase() );
+                                LocalFile = true;
+                            }
+                        if ( files.length == 0 && file2 != undefined )
+                            decryptText( file2, code.toLowerCase(), "0o0E.wav" );
+                        if ( !LocalFile && files.length != 0 )
+                            archiveerror();
+                        break;
+                    }
+
+
+                    case 1335273927:
+                    case -173098585:
+                    case -955725401: {
+                        let LocalFile = false;
+                        for ( let i = 0; i < files.length; ++i )
+                            if ( files[ i ].name == "0o0E.mp4.enc" ) {
+                                decryptFile( files[ i ], code.toLowerCase() );
+                                LocalFile = true;
+                            }
+                        if ( files.length == 0 && _file1 != undefined )
+                            decryptText( _file1, code.toLowerCase(), "0o0E.mp4" );
+                        if ( !LocalFile && files.length != 0 )
+                            archiveerror();
+                        break;
+                    }
+
+                    case -1993889503:
+                    case -2024427263:
+                    case -1077756671: {
+                        let LocalFile = false;
+                        for ( let i = 0; i < files.length; ++i )
+                            if ( files[ i ].name == "0o0E.flac.enc" ) {
+                                decryptFile( files[ i ], code.toLowerCase() );
+                                LocalFile = true;
+                            }
+                        if ( files.length == 0 && _file2 != undefined )
+                            decryptText( _file2, code.toLowerCase(), "0o0E.flac" );
+                        if ( !LocalFile && files.length != 0 )
+                            archiveerror();
+                        break;
+                    }
+
+                    case -135761730:
+                    case -71117602:
+                    case 646865086: {
+                        let LocalFile = false;
+                        for ( let i = 0; i < files.length; ++i )
+                            if ( files[ i ].name == "0o0E.png.enc" ) {
+                                decryptFile( files[ i ], code.toLowerCase() );
+                                LocalFile = true;
+                            }
+                        if ( files.length == 0 && _file3 != undefined )
+                            decryptText( _file3, code.toLowerCase(), "0o0E.png" );
+                        if ( !LocalFile && files.length != 0 )
+                            archiveerror();
+                        break;
+                    }
+
+                    case -2038584168:
+                    case -2008046408:
+                    case -1091913576: {
+                        let LocalFile = false;
+                        for ( let i = 0; i < files.length; ++i )
+                            if ( files[ i ].name == "0o0E.ogg.enc" ) {
+                                decryptFile( files[ i ], code.toLowerCase() );
+                                LocalFile = true;
+                            }
+                        if ( files.length == 0 && file3 != undefined )
+                            decryptText( file3, code.toLowerCase(), "0o0E.ogg" );
+                        if ( !LocalFile && files.length != 0 )
+                            archiveerror();
+                        break;
+                    }
+                    
+                    case -1395524392:
+                    case 1234789624:
+                    case 1952772312: {
+                        let LocalFile = false;
+                        for ( let i = 0; i < files.length; ++i )
+                            if ( files[ i ].name == "0o0E.html.enc" ) {
+                                decryptFile( files[ i ], code.toLowerCase() );
+                                LocalFile = true;
+                            }
+                        if ( files.length == 0 && file4 != undefined )
+                            decryptText( file4, code.toLowerCase(), "0o0E.html" )
+                        if ( !LocalFile && files.length != 0 )
+                            archiveerror();
+                        break;
+                    }
+
+                    default:
+                        document.getElementById( 'error' ).style.display = 'block';
+                    break;
+
+                }
+            }
+
+            function removeurl() {
+                document.getElementById( 'error' ).style.display = 'none';
+                var DownloadLink = document.getElementById( 'downloadLink' );
+                window.URL.revokeObjectURL( DownloadLink.href );
+                DownloadLink.style.display = 'none';
+                document.getElementById( 'archiveerror' ).style.display = 'none';
+            }
+
+            function decryptFile( file, key ) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const fileContent = event.target.result;
+
+                    const decryptedData = new Blob( [convertWordArrayToUint8Array( CryptoJS.AES.decrypt(fileContent, key) )] );
+
+                    const downloadLink = document.getElementById('downloadLink');
+                    var url = window.URL.createObjectURL(decryptedData);
+                    downloadLink.href = url;
+                    downloadLink.download = file.name.replace(/\.[^/.]+$/, "");
+                    downloadLink.style.display = 'block';
+                    window.URL.revokeObjectURL( url );
+                };
+                reader.readAsText(file, 'utf-8');
+            }
+            function decryptText( text, key, name ) {
+                const fileContent = text;
+
+                //cannot use simple string decryption
+                //  CryptoJS.AES.decrypt( fileContent, key ).toString( CryptoJS.enc.Utf8 )
+                //as we work with binary files often (e.g. mp3 files) and the computer has no way to validate those
+
+                const decryptedData = new Blob( [convertWordArrayToUint8Array( CryptoJS.AES.decrypt(fileContent, key) )] );
+
+                const downloadLink = document.getElementById('downloadLink');
+                var url = window.URL.createObjectURL(decryptedData);
+                downloadLink.href = url;
+                downloadLink.download = name;
+                downloadLink.style.display = 'block';
+            }
+
+            function convertWordArrayToUint8Array(wordArray) {
+                var arrayOfWords = wordArray.hasOwnProperty("words") ? wordArray.words : [];
+                var length = wordArray.hasOwnProperty("sigBytes") ? wordArray.sigBytes : arrayOfWords.length * 4;
+                var uInt8Array = new Uint8Array(length), index=0, word, i;
+                for (i=0; i<length; i++) {
+                    word = arrayOfWords[i];
+                    uInt8Array[index++] = word >> 24;
+                    uInt8Array[index++] = (word >> 16) & 0xff;
+                    uInt8Array[index++] = (word >> 8) & 0xff;
+                    uInt8Array[index++] = word & 0xff;
+                }
+                return uInt8Array;
+            }
+
+        </script>
+    </body>
+
 </html>
