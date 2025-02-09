@@ -12,5 +12,6 @@ if __name__ == "__main__":
             exit( 1 );
 
     existing.users.append( request );
-    users_file_write = open( "users.json", "rw" );
+    users_file_write = open( "users.json.new", "rw" );
+    users_file_write.write( json.dumps( existing ) );
     users_file_write.close();
