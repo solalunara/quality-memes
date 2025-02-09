@@ -20,19 +20,23 @@ jobs:
     - name: validate request
       run: |
           python validate_registration_request.py "${{ github.event.issue.body }}"
-          if [ $? -eq 0 ]; then
+          echo "PY_EXIT=$?" >> $GITHUB_ENV
+          if [ $PY_EXIT -eq 0 ]; then
             echo "COMMENT=user added successfully" >> $GITHUB_ENV
+            cp users.json.new users.json
           else
             echo "COMMENT=a user already exists with that username" >> $GITHUB_ENV
           fi
     - name: push changes
       run: |
-          git config --global user.name "Solalunara"
-          git config --global user.email "greenberg04@gmail.com"
+          if [ $PY_EXIT -eq 0 ]; then
+            git config --global user.name "Solalunara"
+            git config --global user.email "greenberg04@gmail.com"
 
-          git add users.json users.json.new
-          git commit -m "Added user (temp)"
-          git push
+            git add users.json users.json.new
+            git commit -m "Added user (temp)"
+            git push
+          fi
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: close issue
