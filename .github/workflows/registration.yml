@@ -15,10 +15,8 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Runs a single command using the runners shell
-    - name: clone repo
-      run: |
-          git fetch
-          cp users.json
+    - name: checkout repo
+      uses: actions/checkout@v2.3.2
     - name: validate request
       run: |
           python validate_registration_request.py ${{ github.event.issue.body }}
@@ -29,6 +27,9 @@ jobs:
           fi
     - name: push changes
       run: |
+          git config --global user.name "Solalunara"
+          git config --global user.email "greenberg04@gmail.com"
+
           git add users.json users.json.new
           git commit -m "Added user (temp)"
           git push
