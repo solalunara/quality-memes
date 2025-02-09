@@ -1,0 +1,39 @@
+name: Registration
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  issues:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "greet"
+  register:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Runs a single command using the runners shell
+    - name: clone repo
+      run: |
+          git fetch
+          cp users.json
+    - name: validate request
+      run: |
+          python validate_registration_request.py ${{ github.event.issue.body }}
+          if [ $? -eq 0 ]; then
+            echo "COMMENT=user added successfully" >> $GITHUB_ENV
+          else
+            echo "COMMENT=a user already exists with that username" >> $GITHUB_ENV
+          fi
+    - name: push changes
+      run: |
+          git add users.json
+          git commit -m "Added user"
+          git push
+    - name: close issue
+      run: |
+          gh issue close --comment $COMMENT ${{ github.event.number }}
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
