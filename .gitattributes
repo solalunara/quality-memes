@@ -1,1 +1,1 @@
-*.json merge=union
+*.json merge=json_merge
