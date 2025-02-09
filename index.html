@@ -11,14 +11,19 @@
             <h2>Login</h2>
 
             <form method="POST" onsubmit="submitform(this); return false;">
-                <label for="username">Username:</label> <input type="text" id="username" name="username" autocomplete="username" required>
+                <label for="username">*Username:</label> <input type="text" id="username" name="username" autocomplete="username" required>
 
-                <label for="password">Password:</label> <input type="password" id="password" name="password" autocomplete="current-password" required>
+                <label for="password">*Password:</label> <input type="password" id="password" name="password" autocomplete="current-password" required>
+
+                <label for="authtoken">Authtoken:</label> <input type="text" id="authtoken" name="authtoken"></input>
 
                 <button type="submit">Log In</button> <button type="submit" onclick="register(this.parentElement)">Register</button>
             </form>
             <div id="username-error" style="display: none;">No user exists with that username</div>
             <div id="password-error" style="display: none;">The password you entered is incorrect</div>
+
+            If you do not enter a valid github personal access token,
+            you will instead be linked to the issues page for requests like registration
 
         </div>
 
@@ -88,23 +93,28 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
         <script type="module">
             import { Octokit } from "https://esm.sh/@octokit/core";
-            async function createissue( title, body ) {
+            async function createissue( title, body, authtoken ) {
                 // Octokit.js
                 // https://github.com/octokit/core.js#readme
-                // This key ONLY has permission to create issues in the solalunara/quality-memes repo
                 const octokit = new Octokit({
-                    auth: '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'
-                })
+                    auth: authtoken
+                });
 
-                await octokit.request('POST /repos/solalunara/quality-memes/issues', {
-                    owner: 'solalunara',
-                    repo: 'quality-memes',
-                    title: title,
-                    body: body,
-                    headers: {
-                        'X-GitHub-Api-Version': '2022-11-28'
-                    }
-                })
+                try {
+                    var result = await octokit.request('POST /repos/solalunara/quality-memes/issues', {
+                        owner: 'solalunara',
+                        repo: 'quality-memes',
+                        title: title,
+                        body: body,
+                        headers: {
+                            'X-GitHub-Api-Version': '2022-11-28'
+                        }
+                    });
+                    return result.status === 201;
+
+                } catch (error) {
+                    return false;                    
+                }
             }
             window.createissue = createissue;
         </script>
@@ -120,24 +130,32 @@
             // registering still needs to submit the form to save the password on firefox
             // but don't run any login code
             var registering = false;
-            function register( form ) {
+            async function register( form ) {
                 registering = true;
                 var uname = form.username.value;
                 var pwd = form.password.value;
+                var authtoken = form.authtoken.value;
                 pwd_hash = CryptoJS.SHA256( pwd ).toString();
-                createissue( 'Registration Request', '{\
+                var success = await createissue( 'Registration Request', '{\
                     uname: '+uname+',\
                     hash: '+pwd_hash+'\
-                }');
+                }', authtoken );
+                console.log( success );
+                if ( !success )
+                    alert( 'Failed to make request - please check your authtoken' );
             }
 
+            var uname;
+            var pwd;
+            var authtoken;
             async function submitform( form ) {
                 if ( registering ) {
                     registering = false;
                     return;
                 }
-                var uname = form.username.value;
-                var pwd = form.password.value;
+                uname = form.username.value;
+                pwd = form.password.value;
+                authtoken = form.authtoken.value;
             }
 
             function rojf() {
