@@ -152,8 +152,8 @@
                 var authtoken = form.authtoken.value;
                 var pwd_hash = CryptoJS.SHA256( pwd ).toString();
                 body =  '{\
-                    \"uname\": \"'+uname+'\",\
-                    \"hash\": \"'+pwd_hash+'\"\
+                    \\\"uname\\\": \\\"'+uname+'\\\",\
+                    \\\"hash\\\": \\\"'+pwd_hash+'\\\"\
                 }'
                 var success = await createissue( 'Registration Request', body, authtoken );
                 console.log( success );
