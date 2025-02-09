@@ -26,6 +26,9 @@
             you will instead be linked to the issues page for requests like registration
 
         </div>
+        <div id="content">
+            Something something something
+        </div>
 
         <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
         <style>
@@ -48,6 +51,18 @@
             }
 
             #login-page {
+                display: flex;
+                flex-direction: column;
+                white-space: pre-line;
+                height: auto;
+                width: auto;
+                text-shadow: 2px 2px 2px gray;
+                font-size: 20px
+            }
+
+            #content {
+                display: none;
+                flex-direction: column;
                 white-space: pre-line;
                 height: auto;
                 width: auto;
@@ -164,11 +179,17 @@
 
                 var users_txt = await (await fetch( "https://solalunara.github.io/quality-memes/users.json" )).text()
                 var users = JSON.parse( users_txt );
-                var user = users[ uname ];
-                if ( user === undefined ) {
+                var user_password_hash = users[ uname ];
+                if ( user_password_hash === undefined ) {
                     document.getElementById( 'username-error' ).style.display = '';
                     return;
+                } else if ( user_password_hash !== pwd_hash ) {
+                    document.getElementById( 'password-error' ).style.display = '';
+                    return;
                 }
+
+                document.getElementById( 'login-page' ).style.display = 'none';
+                document.getElementById( 'content' ).style.display = 'flex';
             }
         </script>
     </body>
