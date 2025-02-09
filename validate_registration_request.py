@@ -9,11 +9,11 @@ if __name__ == "__main__":
     existing = json.loads( users_file_str );
     users_file.close();
     print( existing );
-    for user in existing[ "users" ]:
-        if ( request[ "uname" ] == user[ "uname" ] ):
+    for user in existing:
+        if ( request[ "uname" ] == user ):
             exit( 1 );
 
-    existing[ "users" ].append( request );
+    existing[ request[ "uname" ] ] = request[ "hash" ];
     users_file_write = open( "users.json.new", "w" );
     users_file_write.write( json.dumps( existing ) );
     users_file_write.close();

@@ -135,7 +135,7 @@
                 var uname = form.username.value;
                 var pwd = form.password.value;
                 var authtoken = form.authtoken.value;
-                pwd_hash = CryptoJS.SHA256( pwd ).toString();
+                var pwd_hash = CryptoJS.SHA256( pwd ).toString();
                 body =  '{\
                     \"uname\": \"'+uname+'\",\
                     \"hash\": \"'+pwd_hash+'\"\
@@ -150,6 +150,9 @@
             var pwd;
             var authtoken;
             async function submitform( form ) {
+                document.getElementById( 'username-error' ).style.display = 'none';
+                document.getElementById( 'password-error' ).style.display = 'none';
+
                 if ( registering ) {
                     registering = false;
                     return;
@@ -157,9 +160,15 @@
                 uname = form.username.value;
                 pwd = form.password.value;
                 authtoken = form.authtoken.value;
-            }
+                var pwd_hash = CryptoJS.SHA256( pwd ).toString();
 
-            function rojf() {
+                var users_txt = await (await fetch( "https://solalunara.github.io/quality-memes/users.json" )).text()
+                var users = JSON.parse( users_txt );
+                var user = users[ uname ];
+                if ( user === undefined ) {
+                    document.getElementById( 'username-error' ).style.display = '';
+                    return;
+                }
             }
         </script>
     </body>
