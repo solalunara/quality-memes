@@ -37,6 +37,6 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: close issue
       run: |
-          gh issue close --comment $COMMENT ${{ github.event.issue.number }}
+          gh issue close --comment "$COMMENT" ${{ github.event.issue.number }}
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
