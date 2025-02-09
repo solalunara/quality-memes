@@ -35,9 +35,11 @@ jobs:
           if [ $PY_EXIT -eq 0 ]; then
             git config --global user.name "Solalunara"
             git config --global user.email "greenberg04@gmail.com"
+            git config pull.rebase true
 
             git add users.json users.json.new
             git commit -m "Added user"
+            git pull
             git push
           fi
       env:

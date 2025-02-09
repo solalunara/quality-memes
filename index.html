@@ -27,7 +27,13 @@
 
         </div>
         <div id="content">
-            Something something something
+            <div>
+                Hello, <b class="uname"></b>!
+            </div>
+            <div>
+                <div>Current balance: £<b class="balance gbp"></b></div>
+                <div>Recent transactions:</div>
+            </div>
         </div>
 
         <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
@@ -63,9 +69,19 @@
             #content {
                 display: none;
                 flex-direction: column;
+                justify-content: space-around;
                 white-space: pre-line;
-                height: auto;
-                width: auto;
+                height: 100vh;
+                width: 100vw;
+                text-shadow: 2px 2px 2px gray;
+                font-size: 20px
+            }
+
+            #content > div {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                white-space: pre-line;
                 text-shadow: 2px 2px 2px gray;
                 font-size: 20px
             }
@@ -186,6 +202,12 @@
                 } else if ( user_password_hash !== pwd_hash ) {
                     document.getElementById( 'password-error' ).style.display = '';
                     return;
+                }
+
+                var uname_divs = document.getElementsByClassName( 'uname' );
+                for ( let index = 0; index < uname_divs.length; index++ ) {
+                    const element = uname_divs.item( index );
+                    element.innerHTML = uname;
                 }
 
                 document.getElementById( 'login-page' ).style.display = 'none';

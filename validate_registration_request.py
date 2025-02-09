@@ -15,5 +15,5 @@ if __name__ == "__main__":
 
     existing[ request[ "uname" ] ] = request[ "hash" ];
     users_file_write = open( "users.json.new", "w" );
-    users_file_write.write( json.dumps( existing ) );
+    users_file_write.write( json.dumps( existing, indent=2 ) );
     users_file_write.close();
