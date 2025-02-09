@@ -21,7 +21,9 @@ jobs:
       run: |
           python validate_registration_request.py "${{ github.event.issue.body }}"
           echo "PY_EXIT=$?" >> $GITHUB_ENV
-          if [ $PY_EXIT -eq 0 ]; then
+    - name: update users.json
+      run: |
+          if [ "$PY_EXIT" -eq 0 ]; then
             echo "COMMENT=user added successfully" >> $GITHUB_ENV
             cp users.json.new users.json
           else
