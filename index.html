@@ -113,7 +113,7 @@
                     return result.status === 201;
 
                 } catch (error) {
-                    return false;                    
+                    return false;
                 }
             }
             window.createissue = createissue;
@@ -136,13 +136,14 @@
                 var pwd = form.password.value;
                 var authtoken = form.authtoken.value;
                 pwd_hash = CryptoJS.SHA256( pwd ).toString();
-                var success = await createissue( 'Registration Request', '{\
-                    \\\"uname\\\": \\\"'+uname+'\\\",\
-                    \\\"hash\\\": \\\"'+pwd_hash+'\\\"\
-                }', authtoken );
+                body =  '{\
+                    \"uname\": \"'+uname+'\",\
+                    \"hash\": \"'+pwd_hash+'\"\
+                }'
+                var success = await createissue( 'Registration Request', body, authtoken );
                 console.log( success );
                 if ( !success )
-                    alert( 'Failed to make request - please check your authtoken' );
+                    window.open( 'https://github.com/solalunara/quality-memes/issues/new?title=Registration+Request&body=' + body, '_blank' );
             }
 
             var uname;
