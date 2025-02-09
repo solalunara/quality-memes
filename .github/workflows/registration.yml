@@ -28,7 +28,7 @@ jobs:
             echo "COMMENT=user added successfully" >> $GITHUB_ENV
             cp users.json.new users.json
           else
-            echo "COMMENT=a user already exists with that username" >> $GITHUB_ENV
+            echo "COMMENT=a user already exists with that username, or the request was malformed" >> $GITHUB_ENV
           fi
     - name: push changes
       run: |
