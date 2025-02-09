@@ -1,8 +1,1 @@
-{
-    "users": [
-        {
-            "uname": "test",
-            "hash": "test"
-        }
-    ]
-}
+{"users": [{"uname": "test", "hash": "test"}, {"uname": "abc", "hash": "cb8379ac2098aa165029e3938a51da0bcecfc008fd6795f401178647f96c5b34"}]}
