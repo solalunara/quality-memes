@@ -37,7 +37,7 @@ jobs:
             git config --global user.email "greenberg04@gmail.com"
             git config pull.rebase true
 
-            git add users.json users.json.new
+            git add users.json
             git commit -m "Added user"
             git pull
             git push
