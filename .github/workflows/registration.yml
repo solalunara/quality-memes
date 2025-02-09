@@ -29,11 +29,11 @@ jobs:
           fi
     - name: push changes
       run: |
-          git add users.json
-          git commit -m "Added user"
+          git add users.json users.json.new
+          git commit -m "Added user (temp)"
           git push
     - name: close issue
       run: |
-          gh issue close --comment $COMMENT ${{ github.event.number }}
+          gh issue close --comment $COMMENT ${{ github.event.issue.number }}
       env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
