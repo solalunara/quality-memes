@@ -2,7 +2,7 @@
     "users": [
         {
             "uname": "test",
-            "pwd": "test"
+            "hash": "test"
         }
     ]
 }
