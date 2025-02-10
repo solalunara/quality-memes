@@ -27,6 +27,8 @@ jobs:
       run: |
           if [ "$PY_EXIT" -eq 0 ]; then
             echo "COMMENT=user added successfully" >> $GITHUB_ENV
+            echo "$GITHUB_WORKSPACE" >> $GITHUB_PATH
+            echo $GITHUB_PATH
             cp users.json.new users.json
           else
             echo "COMMENT=a user already exists with that username, or the request was malformed" >> $GITHUB_ENV
@@ -34,6 +36,7 @@ jobs:
     - name: push changes
       run: |
           if [ $PY_EXIT -eq 0 ]; then
+            chmod +x json_merge.sh
             git config --global merge.json_merge.name "JSON Merge Driver"
             git config --global merge.json_merge.driver "json_merge.sh %A %B tempmergefile.json"
             git config --global user.name "Solalunara"
