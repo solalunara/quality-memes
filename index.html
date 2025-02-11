@@ -15,7 +15,7 @@
 
                 <label for="password">*Password:</label> <input type="password" id="password" name="password" autocomplete="current-password" required>
 
-                <label for="authtoken">Authtoken:</label> <input type="text" id="authtoken" name="authtoken"></input>
+                <label for="authtoken">Authtoken:</label> <input type="text" id="authtoken" name="authtoken">
 
                 <button type="submit">Log In</button> <button type="submit" onclick="register(this.parentElement)">Register</button>
             </form>
@@ -28,10 +28,17 @@
         </div>
         <div id="content">
             <div>
+                <button>New Transaction</button>
+                <button>Approve Transaction</button>
+                <button>Settings</button>
+            </div>
+            <div>
                 <div> Hello, <b class="uname"></b>!</div>
             </div>
             <div>
-                <div>Current balance: £<b class="balance gbp"></b></div>
+                <div>Current balance: £<b id="balance-gbp"></b>
+                    <div id="balances"></div>
+                </div>
                 <div>Recent transactions:</div>
             </div>
         </div>
