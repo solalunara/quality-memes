@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Quality Memes</title>
     </head>
-    <body>
+    <body onload="tryskiplogin()">
         <div id="login-page">
             <h2>Login</h2>
 
@@ -158,13 +158,6 @@
         </script>
 
         <script>
-            function checkkey( event ) {
-                if ( event.key === 'Enter' ) {
-                    event.preventDefault();
-                    rojf();
-                }
-            }
-
             // registering still needs to submit the form to save the password on firefox
             // but don't run any login code
             var registering = false;
@@ -202,7 +195,7 @@
 
                 var users_txt = await (await fetch( "https://solalunara.github.io/quality-memes/users.json" )).text()
                 var users = JSON.parse( users_txt );
-                var user_password_hash = users[ uname ];
+                var user_password_hash = users[ uname ][ 'hash' ];
                 if ( user_password_hash === undefined ) {
                     document.getElementById( 'username-error' ).style.display = '';
                     return;
@@ -211,6 +204,16 @@
                     return;
                 }
 
+                setup_landing_page( uname );
+            }
+
+            function tryskiplogin() {
+                var uname = sessionStorage.getItem('uname');
+                if ( uname )
+                    setup_landing_page( uname );
+            }
+
+            function setup_landing_page( uname ) {
                 var uname_divs = document.getElementsByClassName( 'uname' );
                 for ( let index = 0; index < uname_divs.length; index++ ) {
                     const element = uname_divs.item( index );
@@ -219,6 +222,8 @@
 
                 document.getElementById( 'login-page' ).style.display = 'none';
                 document.getElementById( 'content' ).style.display = 'flex';
+                sessionStorage.setItem( 'uname', uname );
+
             }
         </script>
     </body>
