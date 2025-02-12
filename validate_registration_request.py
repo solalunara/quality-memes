@@ -1,6 +1,13 @@
 import sys
 import json
 
+class emptyclass:
+    pass;    
+
+class userdata:
+    hash = 0;
+    balances = emptyclass;
+
 if __name__ == "__main__":
     request_plaintext = sys.argv[ 1 ];
     request = json.loads( request_plaintext );
@@ -13,7 +20,7 @@ if __name__ == "__main__":
         if ( request[ "uname" ] == user ):
             exit( 1 );
 
-    existing[ request[ "uname" ] ] = request[ "hash" ];
+    existing[ request[ "uname" ] ] = { "hash": request[ "hash" ], "balances": {}};
     users_file_write = open( "users.json.new", "w" );
     users_file_write.write( json.dumps( existing, indent=2 ) );
     users_file_write.close();
