@@ -36,8 +36,8 @@
                 <div> Hello, <b class="uname"></b>!</div>
             </div>
             <div>
-                <div>Current balance: £<b class="balance-gbp"></b>
-                    <div id="balances"></div>
+                <div>Current balance: <b class="balance-gbp"></b>
+                    <div class="balances"></div>
                 </div>
                 <div>Recent transactions:</div>
             </div>
@@ -233,11 +233,13 @@
             }
 
             function setup_landing_page() {
+                // set all usernames
                 var uname_divs = document.getElementsByClassName( 'uname' );
-                for ( let index = 0; index < uname_divs.length; index++ ) {
-                    const element = uname_divs.item( index );
-                    element.innerHTML = uname;
+                for ( const uname_div of uname_divs ) {
+                    uname_div.innerHTML = uname;
                 }
+
+                // set balance sheet
                 var total_balance = 0.0;
                 var gbp_balance_str = "";
                 var gbp_balances = users[ uname ][ 'balances' ];
@@ -249,11 +251,16 @@
                         gbp_balance_str += key + ": -£" + (-value) + "\n";
                 }
                 var gbp_balance_elements = document.getElementsByClassName( 'balance-gbp' );
-                for ( let index = 0; index < gbp_balance_elements.length; index++ ) {
-                    const element = gbp_balance_elements.item( index );
-                    element.innerHTML = total_balance;
+                for ( const gbp_balance_element of gbp_balance_elements ) {
+                    if ( total_balance > 0 )
+                        gbp_balance_element.innerHTML = "£" + total_balance;
+                    else if ( total_balance < 0 )
+                        gbp_balance_element.innerHTML = "-£" + (-total_balance);
                 }
-                document.getElementById( 'balances' ).innerHTML = gbp_balance_str;
+                var gbp_balance_sheets = document.getElementsByClassName( 'balances' );
+                for ( const gbp_balance_sheet of gbp_balance_sheets ) {
+                    gbp_balance_sheet.innerHTML = gbp_balance_str;
+                }
 
                 document.getElementById( 'login-page' ).style.display = 'none';
                 document.getElementById( 'content' ).style.display = 'flex';
