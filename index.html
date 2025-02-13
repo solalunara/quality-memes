@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Quality Memes</title>
     </head>
-    <body onload="tryskiplogin()">
+    <body onload="tryskiplogin(); preload()">
         <div id="login-page">
             <h2>Login</h2>
 
@@ -28,7 +28,7 @@
         </div>
         <div id="content">
             <div>
-                <button>New Transaction</button>
+                <button onclick="newtransaction()">New Transaction</button>
                 <button>Approve Transaction</button>
                 <button>Settings</button>
             </div>
@@ -36,11 +36,17 @@
                 <div> Hello, <b class="uname"></b>!</div>
             </div>
             <div>
-                <div>Current balance: £<b id="balance-gbp"></b>
+                <div>Current balance: £<b class="balance-gbp"></b>
                     <div id="balances"></div>
                 </div>
                 <div>Recent transactions:</div>
             </div>
+        </div>
+        <div id="newtransaction">
+            <b>Request New Transaction</b>
+            <form method="POST" onsubmit="return false;">
+
+            </form>
         </div>
 
         <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
@@ -73,7 +79,7 @@
                 font-size: 20px
             }
 
-            #content {
+            #content, #newtransaction {
                 display: none;
                 flex-direction: column;
                 justify-content: space-around;
@@ -158,10 +164,20 @@
         </script>
 
         <script>
+            var users;
+            async function preload() {
+                var users_txt = await (await fetch( "https://solalunara.github.io/quality-memes/users.json" )).text()
+                users = JSON.parse( users_txt );
+            }
+
             // registering still needs to submit the form to save the password on firefox
             // but don't run any login code
             var registering = false;
             async function register( form ) {
+                if ( users === undefined ) {
+                    alert( "Please wait for all resources to finish loading" );
+                    return;
+                }
                 registering = true;
                 var uname = form.username.value;
                 var pwd = form.password.value;
@@ -172,7 +188,6 @@
                     \\\"hash\\\": \\\"'+pwd_hash+'\\\"\
                 }'
                 var success = await createissue( 'Registration Request', body, authtoken );
-                console.log( success );
                 if ( !success )
                     window.open( 'https://github.com/solalunara/quality-memes/issues/new?title=Registration+Request&body=' + body, '_blank' );
             }
@@ -180,9 +195,14 @@
             var uname;
             var pwd;
             var authtoken;
-            async function submitform( form ) {
+            function submitform( form ) {
                 document.getElementById( 'username-error' ).style.display = 'none';
                 document.getElementById( 'password-error' ).style.display = 'none';
+
+                if ( users === undefined ) {
+                    alert( "Please wait for all resources to finish loading" );
+                    return;
+                }
 
                 if ( registering ) {
                     registering = false;
@@ -193,8 +213,6 @@
                 authtoken = form.authtoken.value;
                 var pwd_hash = CryptoJS.SHA256( pwd ).toString();
 
-                var users_txt = await (await fetch( "https://solalunara.github.io/quality-memes/users.json" )).text()
-                var users = JSON.parse( users_txt );
                 var user_password_hash = users[ uname ][ 'hash' ];
                 if ( user_password_hash === undefined ) {
                     document.getElementById( 'username-error' ).style.display = '';
@@ -204,26 +222,47 @@
                     return;
                 }
 
-                setup_landing_page( uname );
+                setup_landing_page();
             }
 
-            function tryskiplogin() {
-                var uname = sessionStorage.getItem('uname');
+            async function tryskiplogin() {
+                uname = sessionStorage.getItem('uname');
+                await preload();
                 if ( uname )
-                    setup_landing_page( uname );
+                    setup_landing_page();
             }
 
-            function setup_landing_page( uname ) {
+            function setup_landing_page() {
                 var uname_divs = document.getElementsByClassName( 'uname' );
                 for ( let index = 0; index < uname_divs.length; index++ ) {
                     const element = uname_divs.item( index );
                     element.innerHTML = uname;
                 }
+                var total_balance = 0.0;
+                var gbp_balance_str = "";
+                var gbp_balances = users[ uname ][ 'balances' ];
+                for ( const [key, value] of Object.entries( gbp_balances ) ) {
+                    total_balance += value;
+                    if ( value > 0 )
+                        gbp_balance_str += key + ": £" + value + "\n";
+                    else if ( value < 0 )
+                        gbp_balance_str += key + ": -£" + (-value) + "\n";
+                }
+                var gbp_balance_elements = document.getElementsByClassName( 'balance-gbp' );
+                for ( let index = 0; index < gbp_balance_elements.length; index++ ) {
+                    const element = gbp_balance_elements.item( index );
+                    element.innerHTML = total_balance;
+                }
+                document.getElementById( 'balances' ).innerHTML = gbp_balance_str;
 
                 document.getElementById( 'login-page' ).style.display = 'none';
                 document.getElementById( 'content' ).style.display = 'flex';
                 sessionStorage.setItem( 'uname', uname );
+            }
 
+            function newtransaction() {
+                document.getElementById( 'content' ).style.display = 'none';
+                document.getElementById( 'newtransaction' ).style.display = 'flex';
             }
         </script>
     </body>
